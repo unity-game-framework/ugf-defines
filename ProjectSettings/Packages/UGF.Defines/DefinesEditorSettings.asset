@@ -12,3 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22aea6a9e0849e5a94143c4fb764944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_settings:
+    m_groups:
+    - m_name: Standalone
+      m_settings:
+        id: 0
+    - m_name: Android
+      m_settings:
+        id: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: , ns: , asm: }
