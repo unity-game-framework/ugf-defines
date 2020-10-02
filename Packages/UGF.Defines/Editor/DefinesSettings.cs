@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UGF.EditorTools.Runtime.IMGUI.EnabledProperty;
 using UnityEngine;
 
@@ -7,12 +8,10 @@ namespace UGF.Defines.Editor
     [Serializable]
     public class DefinesSettings
     {
-        [SerializeField] private EnabledProperty<string> m_define1;
-        [SerializeField] private EnabledProperty<string> m_define2;
-        [SerializeField] private EnabledProperty<string> m_define3;
+        [SerializeField] private bool m_includeInBuild = true;
+        [SerializeField] private List<EnabledProperty<string>> m_defines = new List<EnabledProperty<string>>();
 
-        public EnabledProperty<string> Define1 { get { return m_define1; } set { m_define1 = value; } }
-        public EnabledProperty<string> Define2 { get { return m_define2; } set { m_define2 = value; } }
-        public EnabledProperty<string> Define3 { get { return m_define3; } set { m_define3 = value; } }
+        public bool IncludeInBuild { get { return m_includeInBuild; } set { m_includeInBuild = value; } }
+        public List<EnabledProperty<string>> Defines { get { return m_defines; } }
     }
 }
