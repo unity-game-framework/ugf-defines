@@ -35,20 +35,14 @@ namespace UGF.Defines.Editor
 
         private void OnApplied(string groupName, BuildTargetGroup buildTargetGroup, bool onlyEnabled)
         {
-            if (DefinesEditorSettings.Settings.TryGetSettings(groupName, out DefinesSettings settings))
-            {
-                DefinesPlatformSettingsEditorUtility.ApplyAll(buildTargetGroup, settings, onlyEnabled);
-                AssetDatabase.SaveAssets();
-            }
+            DefinesEditorSettings.ApplyAll(buildTargetGroup, onlyEnabled);
+            AssetDatabase.SaveAssets();
         }
 
         private void OnCleared(string groupName, BuildTargetGroup buildTargetGroup, bool onlyEnabled)
         {
-            if (DefinesEditorSettings.Settings.TryGetSettings(groupName, out DefinesSettings settings))
-            {
-                DefinesPlatformSettingsEditorUtility.ClearAll(buildTargetGroup, settings, onlyEnabled);
-                AssetDatabase.SaveAssets();
-            }
+            DefinesEditorSettings.ClearAll(buildTargetGroup, onlyEnabled);
+            AssetDatabase.SaveAssets();
         }
     }
 }
