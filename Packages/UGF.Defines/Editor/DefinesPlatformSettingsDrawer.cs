@@ -149,23 +149,38 @@ namespace UGF.Defines.Editor
             float space = EditorGUIUtility.standardVerticalSpacing;
             float width = 50F;
 
-            var applyPosition = new Rect(position.xMax - width - line, position.y + space * 2F, width, line);
-            var clearPosition = new Rect(applyPosition.x - width - space, position.y + space * 2F, width, line);
-            var clearAllPosition = new Rect(clearPosition.x - width - space - 10F, position.y + space * 2F, width + 10F, line);
+            position.y += space;
 
-            if (GUI.Button(applyPosition, m_styles.ApplyContent))
-            {
-                OnApply(propertyGroups, name, true);
-            }
+            bool hasApply = Applied != null;
+            bool hasClear = Cleared != null;
+            bool hasAny = hasApply || hasClear;
 
-            if (GUI.Button(clearPosition, m_styles.ClearContent))
-            {
-                OnClearAll(propertyGroups, name, true);
-            }
+            var applyPosition = new Rect(position.xMax - width - line, position.y, width, line);
+            var clearPosition = new Rect(applyPosition.x - width - space, position.y, width, line);
+            var clearAllPosition = new Rect(clearPosition.x - width - space - 10F, position.y, width + 10F, line);
 
-            if (GUI.Button(clearAllPosition, m_styles.ClearAllContent))
+            if (hasAny)
             {
-                OnClearAll(propertyGroups, name, false);
+                using (new EditorGUI.DisabledScope(!hasApply))
+                {
+                    if (GUI.Button(applyPosition, m_styles.ApplyContent))
+                    {
+                        OnApply(propertyGroups, name, true);
+                    }
+                }
+
+                using (new EditorGUI.DisabledScope(!hasClear))
+                {
+                    if (GUI.Button(clearPosition, m_styles.ClearContent))
+                    {
+                        OnClearAll(propertyGroups, name, true);
+                    }
+
+                    if (GUI.Button(clearAllPosition, m_styles.ClearAllContent))
+                    {
+                        OnClearAll(propertyGroups, name, false);
+                    }
+                }
             }
         }
 
@@ -176,7 +191,16 @@ namespace UGF.Defines.Editor
             float elementsHeight = OnGetElementsHeight(propertyGroups);
             float controlsHeight = OnGetControlsHeight(propertyGroups);
 
-            return propertiesHeight + space + elementsHeight + space + controlsHeight;
+            if (controlsHeight > 0F)
+            {
+                controlsHeight += 5F;
+            }
+            else
+            {
+                controlsHeight = space;
+            }
+
+            return propertiesHeight + elementsHeight + controlsHeight + space * 4F;
         }
 
         protected virtual float OnGetPropertiesHeight(SerializedProperty propertyGroups)
@@ -208,7 +232,13 @@ namespace UGF.Defines.Editor
 
         protected virtual float OnGetControlsHeight(SerializedProperty propertyGroups)
         {
-            return EditorGUIUtility.singleLineHeight * 2F;
+            float line = EditorGUIUtility.singleLineHeight;
+            float space = EditorGUIUtility.standardVerticalSpacing;
+
+            bool hasApply = Applied != null;
+            bool hasClear = Cleared != null;
+
+            return hasApply || hasClear ? line + space * 2F : 0F;
         }
 
         protected virtual void OnApply(SerializedProperty propertyGroups, string name, bool onlyEnabled)
