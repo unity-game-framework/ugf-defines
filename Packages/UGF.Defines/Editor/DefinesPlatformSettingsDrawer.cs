@@ -1,4 +1,5 @@
-﻿using UGF.EditorTools.Editor.Defines;
+﻿using System;
+using UGF.EditorTools.Editor.Defines;
 using UGF.EditorTools.Editor.IMGUI.EnabledProperty;
 using UGF.EditorTools.Editor.IMGUI.PlatformSettings;
 using UnityEditor;
@@ -12,8 +13,11 @@ namespace UGF.Defines.Editor
 
         private class Styles
         {
-            public GUIContent FlagOnContent { get; } = new GUIContent(EditorGUIUtility.FindTexture("Valid"), "Define included in compile symbols.");
-            public GUIContent FlagOffContent { get; } = new GUIContent("X", "Define NOT included in compile symbols.");
+            public GUIContent ApplyContent { get; } = new GUIContent("Apply", "Apply all enabled defines to Project settings compile symbols.");
+            public GUIContent ClearContent { get; } = new GUIContent("Clear", "Clear all enabled defines from Project settings compile symbols.");
+            public GUIContent ClearAllContent { get; } = new GUIContent("Clear All", "Clear all enabled and disabled defines from Project settings compile symbols.");
+            public GUIContent FlagOnContent { get; } = new GUIContent(EditorGUIUtility.FindTexture("Valid"), "Define currently included in compile symbols.");
+            public GUIContent FlagOffContent { get; } = new GUIContent("X", "Define currently NOT included in compile symbols.");
 
             public GUIStyle FlagStyle { get; } = new GUIStyle("MiniLabel")
             {
@@ -21,8 +25,7 @@ namespace UGF.Defines.Editor
                 normal =
                 {
                     textColor = Color.grey
-                },
-                // fontStyle = FontStyle.Bold
+                }
             };
         }
 
@@ -51,6 +54,23 @@ namespace UGF.Defines.Editor
 
         protected override void OnDrawSettings(Rect position, SerializedProperty propertyGroups, string name)
         {
+            float space = EditorGUIUtility.standardVerticalSpacing;
+
+            float propertiesHeight = OnGetPropertiesHeight(propertyGroups);
+            float elementsHeight = OnGetElementsHeight(propertyGroups);
+            float controlsHeight = OnGetControlsHeight(propertyGroups);
+
+            var propertiesPosition = new Rect(position.x, position.y, position.width, propertiesHeight);
+            var elementsPosition = new Rect(position.x, propertiesPosition.yMax + space, position.width, elementsHeight);
+            var controlsPosition = new Rect(position.x, elementsPosition.yMax + space, position.width, controlsHeight);
+
+            OnDrawProperties(propertiesPosition, propertyGroups, name);
+            OnDrawElements(elementsPosition, propertyGroups, name);
+            OnDrawControls(controlsPosition, propertyGroups, name);
+        }
+
+        protected virtual void OnDrawProperties(Rect position, SerializedProperty propertyGroups, string name)
+        {
             SerializedProperty propertySettings = OnGetSettings(propertyGroups, name);
             SerializedProperty propertyDefines = propertySettings.FindPropertyRelative("m_defines");
             SerializedProperty propertyIncludeInBuild = propertySettings.FindPropertyRelative("m_includeInBuild");
@@ -58,45 +78,127 @@ namespace UGF.Defines.Editor
 
             float line = EditorGUIUtility.singleLineHeight;
             float space = EditorGUIUtility.standardVerticalSpacing;
-            var buildPosition = new Rect(position.x, position.y, position.width, line);
-            var sizePosition = new Rect(position.x, buildPosition.yMax + space, position.width, line);
-            var elementPosition = new Rect(position.x, sizePosition.y, position.width - line - space, line);
-            var flagPosition = new Rect(elementPosition.xMax + space, sizePosition.y, line, line);
 
-            EditorGUI.PropertyField(buildPosition, propertyIncludeInBuild);
+            var includeInBuildPosition = new Rect(position.x, position.y, position.width, line);
+            var sizePosition = new Rect(position.x, includeInBuildPosition.yMax + space, position.width, line);
+
+            EditorGUI.PropertyField(includeInBuildPosition, propertyIncludeInBuild);
             EditorGUI.PropertyField(sizePosition, propertySize);
+        }
+
+        protected virtual void OnDrawElements(Rect position, SerializedProperty propertyGroups, string name)
+        {
+            SerializedProperty propertySettings = OnGetSettings(propertyGroups, name);
+            SerializedProperty propertyDefines = propertySettings.FindPropertyRelative("m_defines");
+
+            float space = EditorGUIUtility.standardVerticalSpacing;
 
             for (int i = 0; i < propertyDefines.arraySize; i++)
             {
-                SerializedProperty propertyElement = propertyDefines.GetArrayElementAtIndex(i);
-                SerializedProperty propertyValue = propertyElement.FindPropertyRelative("m_value");
+                float height = OnGetElementHeight(propertyGroups, i);
 
-                elementPosition.y += line + space;
-                flagPosition.y += line + space;
+                position.height = height;
 
-                EnabledPropertyGUIUtility.EnabledProperty(elementPosition, GUIContent.none, propertyElement);
+                OnDrawElement(position, propertyGroups, i);
 
-                bool hasValue = !string.IsNullOrEmpty(propertyValue.stringValue);
-                bool hasDefine = hasValue && DefinesEditorUtility.HasDefine(propertyValue.stringValue, BuildTargetGroup.Standalone);
-                GUIContent flagContent = hasDefine ? m_styles.FlagOnContent : m_styles.FlagOffContent;
+                position.y += height + space;
+            }
+        }
 
-                GUI.Label(flagPosition, flagContent, m_styles.FlagStyle);
+        protected virtual void OnDrawElement(Rect position, SerializedProperty propertyGroups, int index)
+        {
+            string name = GetSelectedGroupName();
+            SerializedProperty propertySettings = OnGetSettings(propertyGroups, name);
+            SerializedProperty propertyDefines = propertySettings.FindPropertyRelative("m_defines");
+            SerializedProperty propertyElement = propertyDefines.GetArrayElementAtIndex(index);
+            SerializedProperty propertyValue = propertyElement.FindPropertyRelative("m_value");
+
+            float line = EditorGUIUtility.singleLineHeight;
+            float space = EditorGUIUtility.standardVerticalSpacing;
+
+            var propertyPosition = new Rect(position.x, position.y, position.width - line - space, position.height);
+            var flagPosition = new Rect(propertyPosition.xMax + space, position.y, line, position.height);
+
+            GUIContent flagContent = m_styles.FlagOffContent;
+
+            if (!string.IsNullOrEmpty(propertyValue.stringValue) && Enum.TryParse(name, out BuildTargetGroup value))
+            {
+                bool hasDefine = DefinesEditorUtility.HasDefine(propertyValue.stringValue, value);
+
+                if (hasDefine)
+                {
+                    flagContent = m_styles.FlagOnContent;
+                }
+            }
+
+            EnabledPropertyGUIUtility.EnabledProperty(propertyPosition, GUIContent.none, propertyElement);
+
+            GUI.Label(flagPosition, flagContent, m_styles.FlagStyle);
+        }
+
+        protected virtual void OnDrawControls(Rect position, SerializedProperty propertyGroups, string name)
+        {
+            float line = EditorGUIUtility.singleLineHeight;
+            float space = EditorGUIUtility.standardVerticalSpacing;
+            float width = 50F;
+
+            var applyPosition = new Rect(position.xMax - width - line, position.y + space * 2F, width, line);
+            var clearPosition = new Rect(applyPosition.x - width - space, position.y + space * 2F, width, line);
+            var clearAllPosition = new Rect(clearPosition.x - width - space - 10F, position.y + space * 2F, width + 10F, line);
+
+            if (GUI.Button(applyPosition, m_styles.ApplyContent))
+            {
+            }
+
+            if (GUI.Button(clearPosition, m_styles.ClearContent))
+            {
+            }
+
+            if (GUI.Button(clearAllPosition, m_styles.ClearAllContent))
+            {
             }
         }
 
         protected override float OnGetSettingsHeight(SerializedProperty propertyGroups)
         {
+            float space = EditorGUIUtility.standardVerticalSpacing;
+            float propertiesHeight = OnGetPropertiesHeight(propertyGroups);
+            float elementsHeight = OnGetElementsHeight(propertyGroups);
+            float controlsHeight = OnGetControlsHeight(propertyGroups);
+
+            return propertiesHeight + space + elementsHeight + space + controlsHeight;
+        }
+
+        protected virtual float OnGetPropertiesHeight(SerializedProperty propertyGroups)
+        {
+            return EditorGUIUtility.singleLineHeight * 2F + EditorGUIUtility.standardVerticalSpacing;
+        }
+
+        protected virtual float OnGetElementsHeight(SerializedProperty propertyGroups)
+        {
             string name = GetSelectedGroupName();
             SerializedProperty propertySettings = OnGetSettings(propertyGroups, name);
             SerializedProperty propertyDefines = propertySettings.FindPropertyRelative("m_defines");
 
-            float line = EditorGUIUtility.singleLineHeight;
             float space = EditorGUIUtility.standardVerticalSpacing;
-            float height = line * 2F + space * 6F;
+            float height = 0F;
 
-            height += (line + space) * propertyDefines.arraySize;
+            for (int i = 0; i < propertyDefines.arraySize; i++)
+            {
+                height += OnGetElementHeight(propertyDefines, i) + space;
+            }
 
             return height;
+        }
+
+        protected virtual float OnGetElementHeight(SerializedProperty propertyGroups, int index)
+        {
+            return EditorGUIUtility.singleLineHeight;
+        }
+
+        protected virtual float OnGetControlsHeight(SerializedProperty propertyGroups)
+        {
+            return EditorGUIUtility.singleLineHeight * 2F;
         }
     }
 }
