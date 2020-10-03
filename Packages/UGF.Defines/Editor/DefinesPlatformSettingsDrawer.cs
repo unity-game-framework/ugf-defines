@@ -148,14 +148,17 @@ namespace UGF.Defines.Editor
 
             if (GUI.Button(applyPosition, m_styles.ApplyContent))
             {
+                OnApply(propertyGroups, name, true);
             }
 
             if (GUI.Button(clearPosition, m_styles.ClearContent))
             {
+                OnClearAll(propertyGroups, name, true);
             }
 
             if (GUI.Button(clearAllPosition, m_styles.ClearAllContent))
             {
+                OnClearAll(propertyGroups, name, false);
             }
         }
 
@@ -199,6 +202,20 @@ namespace UGF.Defines.Editor
         protected virtual float OnGetControlsHeight(SerializedProperty propertyGroups)
         {
             return EditorGUIUtility.singleLineHeight * 2F;
+        }
+
+        protected virtual void OnApply(SerializedProperty propertyGroups, string name, bool onlyEnabled)
+        {
+            if (Enum.TryParse(name, out BuildTargetGroup group))
+            {
+            }
+        }
+
+        protected virtual void OnClearAll(SerializedProperty propertyGroups, string name, bool onlyEnabled)
+        {
+            if (Enum.TryParse(name, out BuildTargetGroup group))
+            {
+            }
         }
     }
 }
