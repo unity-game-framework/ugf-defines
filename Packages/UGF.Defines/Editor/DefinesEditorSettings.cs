@@ -6,6 +6,16 @@ namespace UGF.Defines.Editor
 {
     public static class DefinesEditorSettings
     {
+        public static bool RestoreDefinesAfterBuild
+        {
+            get { return m_settings.Data.RestoreDefinesAfterBuild; }
+            set
+            {
+                m_settings.Data.RestoreDefinesAfterBuild = value;
+                m_settings.SaveSettings();
+            }
+        }
+
         public static PlatformSettings<DefinesSettings> Settings { get { return m_settings.Data.Settings; } }
 
         private static readonly CustomSettingsEditorPackage<DefinesEditorSettingsData> m_settings = new CustomSettingsEditorPackage<DefinesEditorSettingsData>

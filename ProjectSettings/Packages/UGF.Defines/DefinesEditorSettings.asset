@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22aea6a9e0849e5a94143c4fb764944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_restoreDefinesAfterBuild: 1
   m_settings:
     m_groups:
     - m_name: Android
@@ -28,17 +29,13 @@ MonoBehaviour:
         m_includeInBuild: 0
         m_defines:
         - m_enabled: 1
-          m_value: TEST2
-        - m_enabled: 0
-          m_value: 
-        - m_enabled: 0
-          m_value: 
+          m_value: TEST3
     00000001:
       type: {class: DefinesSettings, ns: UGF.Defines.Editor, asm: UGF.Defines.Editor}
       data:
         m_includeInBuild: 1
         m_defines:
         - m_enabled: 1
-          m_value: TEST
-        - m_enabled: 0
-          m_value: 
+          m_value: TEST1
+        - m_enabled: 1
+          m_value: TEST2

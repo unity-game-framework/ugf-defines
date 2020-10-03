@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using UGF.EditorTools.Editor.IMGUI.PlatformSettings;
+using UnityEditor;
 
 namespace UGF.Defines.Editor
 {
@@ -6,12 +7,15 @@ namespace UGF.Defines.Editor
     internal class DefinesEditorSettingsDataEditor : UnityEditor.Editor
     {
         private readonly DefinesPlatformSettingsDrawer m_drawer = new DefinesPlatformSettingsDrawer();
+        private SerializedProperty m_propertyRestoreDefinesAfterBuild;
         private SerializedProperty m_propertyGroups;
 
         private void OnEnable()
         {
             m_drawer.AddPlatformAllAvailable();
             m_drawer.SetupGroupTypes();
+
+            m_propertyRestoreDefinesAfterBuild = serializedObject.FindProperty("m_restoreDefinesAfterBuild");
             m_propertyGroups = serializedObject.FindProperty("m_settings.m_groups");
 
             m_drawer.Applied += OnApplied;
@@ -28,21 +32,32 @@ namespace UGF.Defines.Editor
         {
             serializedObject.UpdateIfRequiredOrScript();
 
+            EditorGUILayout.PropertyField(m_propertyRestoreDefinesAfterBuild);
+
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Scripting Define Symbols", EditorStyles.boldLabel);
+
             m_drawer.DrawGUILayout(m_propertyGroups);
 
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void OnApplied(string groupName, BuildTargetGroup buildTargetGroup, bool onlyEnabled)
+        private void OnApplied(string groupName, BuildTargetGroup buildTargetGroup)
         {
-            DefinesBuildEditorUtility.ApplyAll(buildTargetGroup, DefinesEditorSettings.Settings, onlyEnabled);
-            AssetDatabase.SaveAssets();
+            if (DefinesEditorSettings.Settings.TryGetSettings(buildTargetGroup, out DefinesSettings settings))
+            {
+                DefinesBuildEditorUtility.ApplyDefinesAll(buildTargetGroup, settings);
+                AssetDatabase.SaveAssets();
+            }
         }
 
-        private void OnCleared(string groupName, BuildTargetGroup buildTargetGroup, bool onlyEnabled)
+        private void OnCleared(string groupName, BuildTargetGroup buildTargetGroup)
         {
-            DefinesBuildEditorUtility.ClearAll(buildTargetGroup, DefinesEditorSettings.Settings, onlyEnabled);
-            AssetDatabase.SaveAssets();
+            if (DefinesEditorSettings.Settings.TryGetSettings(buildTargetGroup, out DefinesSettings settings))
+            {
+                DefinesBuildEditorUtility.ClearDefinesAll(buildTargetGroup, settings);
+                AssetDatabase.SaveAssets();
+            }
         }
     }
 }

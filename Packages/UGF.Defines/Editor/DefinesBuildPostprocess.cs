@@ -6,14 +6,17 @@ namespace UGF.Defines.Editor
 {
     internal class DefinesBuildPostprocess : IPostprocessBuildWithReport
     {
-        public int callbackOrder { get; }
+        public int callbackOrder { get; } = int.MaxValue;
 
         public void OnPostprocessBuild(BuildReport report)
         {
             BuildTargetGroup group = report.summary.platformGroup;
 
-            DefinesBuildEditorUtility.ClearAll(group, DefinesEditorSettings.Settings);
-            AssetDatabase.SaveAssets();
+            if (DefinesEditorSettings.RestoreDefinesAfterBuild)
+            {
+                DefinesBuildEditorUtility.LoadPreviouslySavedDefines(group);
+                AssetDatabase.SaveAssets();
+            }
         }
     }
 }

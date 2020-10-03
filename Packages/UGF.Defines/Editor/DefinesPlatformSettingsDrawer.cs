@@ -12,7 +12,7 @@ namespace UGF.Defines.Editor
         public event DefineGroupChangeHandler Applied;
         public event DefineGroupChangeHandler Cleared;
 
-        public delegate void DefineGroupChangeHandler(string name, BuildTargetGroup buildTargetGroup, bool onlyEnabled);
+        public delegate void DefineGroupChangeHandler(string name, BuildTargetGroup buildTargetGroup);
 
         private Styles m_styles;
 
@@ -20,9 +20,8 @@ namespace UGF.Defines.Editor
         {
             public GUIContent IncludeInBuild { get; } = new GUIContent("Include In Build", "Determines whether to include specified enabled defines in player build.");
             public GUIContent Count { get; } = new GUIContent("Count");
-            public GUIContent ApplyContent { get; } = new GUIContent("Apply", "Apply all enabled defines to Project settings compile symbols.");
-            public GUIContent ClearContent { get; } = new GUIContent("Clear", "Clear all enabled defines from Project settings compile symbols.");
-            public GUIContent ClearAllContent { get; } = new GUIContent("Clear All", "Clear all enabled and disabled defines from Project settings compile symbols.");
+            public GUIContent ApplyContent { get; } = new GUIContent("Apply", "Apply specified defines to Project Settings compile symbols.");
+            public GUIContent ClearContent { get; } = new GUIContent("Clear", "Clear Project Settings compile symbols from all specified defines.");
             public GUIContent FlagOnContent { get; } = new GUIContent(EditorGUIUtility.FindTexture("Valid"), "Define currently included in compile symbols.");
             public GUIContent FlagOffContent { get; } = new GUIContent("X", "Define currently NOT included in compile symbols.");
 
@@ -156,7 +155,7 @@ namespace UGF.Defines.Editor
                 {
                     if (GUI.Button(applyPosition, m_styles.ApplyContent))
                     {
-                        OnApply(propertyGroups, name, true);
+                        OnApply(propertyGroups, name);
                     }
                 }
 
@@ -164,12 +163,7 @@ namespace UGF.Defines.Editor
                 {
                     if (GUI.Button(clearPosition, m_styles.ClearContent))
                     {
-                        OnClearAll(propertyGroups, name, true);
-                    }
-
-                    if (GUI.Button(clearAllPosition, m_styles.ClearAllContent))
-                    {
-                        OnClearAll(propertyGroups, name, false);
+                        OnClearAll(propertyGroups, name);
                     }
                 }
             }
@@ -232,19 +226,19 @@ namespace UGF.Defines.Editor
             return hasApply || hasClear ? line + space * 2F : 0F;
         }
 
-        protected virtual void OnApply(SerializedProperty propertyGroups, string name, bool onlyEnabled)
+        protected virtual void OnApply(SerializedProperty propertyGroups, string name)
         {
             if (Enum.TryParse(name, out BuildTargetGroup group))
             {
-                Applied?.Invoke(name, group, onlyEnabled);
+                Applied?.Invoke(name, group);
             }
         }
 
-        protected virtual void OnClearAll(SerializedProperty propertyGroups, string name, bool onlyEnabled)
+        protected virtual void OnClearAll(SerializedProperty propertyGroups, string name)
         {
             if (Enum.TryParse(name, out BuildTargetGroup group))
             {
-                Cleared?.Invoke(name, group, onlyEnabled);
+                Cleared?.Invoke(name, group);
             }
         }
 
