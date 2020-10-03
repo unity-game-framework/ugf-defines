@@ -132,6 +132,9 @@ namespace UGF.Defines.Editor
 
         protected virtual void OnDrawControls(Rect position, SerializedProperty propertyGroups, string name)
         {
+            SerializedProperty propertySettings = OnGetSettings(propertyGroups, name);
+            SerializedProperty propertyDefines = propertySettings.FindPropertyRelative("m_defines");
+
             float line = EditorGUIUtility.singleLineHeight;
             float space = EditorGUIUtility.standardVerticalSpacing;
             float width = 50F;
@@ -141,6 +144,7 @@ namespace UGF.Defines.Editor
             bool hasApply = Applied != null;
             bool hasClear = Cleared != null;
             bool hasAny = hasApply || hasClear;
+            bool hasDefines = propertyDefines.arraySize > 0;
 
             var applyPosition = new Rect(position.xMax - width - line, position.y, width, line);
             var clearPosition = new Rect(applyPosition.x - width - space, position.y, width, line);
@@ -148,7 +152,7 @@ namespace UGF.Defines.Editor
 
             if (hasAny)
             {
-                using (new EditorGUI.DisabledScope(!hasApply))
+                using (new EditorGUI.DisabledScope(!hasApply || !hasDefines))
                 {
                     if (GUI.Button(applyPosition, m_styles.ApplyContent))
                     {
@@ -156,7 +160,7 @@ namespace UGF.Defines.Editor
                     }
                 }
 
-                using (new EditorGUI.DisabledScope(!hasClear))
+                using (new EditorGUI.DisabledScope(!hasClear || !hasDefines))
                 {
                     if (GUI.Button(clearPosition, m_styles.ClearContent))
                     {
