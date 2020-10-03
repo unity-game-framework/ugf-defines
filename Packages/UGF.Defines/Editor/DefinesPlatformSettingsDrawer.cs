@@ -18,6 +18,8 @@ namespace UGF.Defines.Editor
 
         private class Styles
         {
+            public GUIContent IncludeInBuild { get; } = new GUIContent("Include In Build", "Determines whether to include specified enabled defines in player build.");
+            public GUIContent Count { get; } = new GUIContent("Count");
             public GUIContent ApplyContent { get; } = new GUIContent("Apply", "Apply all enabled defines to Project settings compile symbols.");
             public GUIContent ClearContent { get; } = new GUIContent("Clear", "Clear all enabled defines from Project settings compile symbols.");
             public GUIContent ClearAllContent { get; } = new GUIContent("Clear All", "Clear all enabled and disabled defines from Project settings compile symbols.");
@@ -87,8 +89,8 @@ namespace UGF.Defines.Editor
             var includeInBuildPosition = new Rect(position.x, position.y, position.width, line);
             var sizePosition = new Rect(position.x, includeInBuildPosition.yMax + space, position.width, line);
 
-            EditorGUI.PropertyField(includeInBuildPosition, propertyIncludeInBuild);
-            EditorGUI.PropertyField(sizePosition, propertySize);
+            EditorGUI.PropertyField(includeInBuildPosition, propertyIncludeInBuild, m_styles.IncludeInBuild);
+            EditorGUI.PropertyField(sizePosition, propertySize, m_styles.Count);
         }
 
         protected virtual void OnDrawElements(Rect position, SerializedProperty propertyGroups, string name)
