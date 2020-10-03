@@ -15,7 +15,7 @@ namespace UGF.Defines.Editor
             {
                 EnabledProperty<string> define = settings.Defines[i];
 
-                if (!onlyEnabled || define)
+                if (!string.IsNullOrEmpty(define) && (!onlyEnabled || define))
                 {
                     DefinesEditorUtility.SetDefine(define, buildTargetGroup);
                 }
@@ -30,7 +30,7 @@ namespace UGF.Defines.Editor
             {
                 EnabledProperty<string> define = settings.Defines[i];
 
-                if (!onlyEnabled || define)
+                if (!string.IsNullOrEmpty(define) && (!onlyEnabled || define))
                 {
                     DefinesEditorUtility.RemoveDefine(define, buildTargetGroup);
                 }

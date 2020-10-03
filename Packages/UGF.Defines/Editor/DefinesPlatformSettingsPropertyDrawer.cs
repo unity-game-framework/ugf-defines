@@ -1,7 +1,6 @@
 ﻿using UGF.EditorTools.Editor.IMGUI.PlatformSettings;
 using UGF.EditorTools.Runtime.IMGUI.PlatformSettings;
 using UnityEditor;
-using UnityEngine;
 
 namespace UGF.Defines.Editor
 {

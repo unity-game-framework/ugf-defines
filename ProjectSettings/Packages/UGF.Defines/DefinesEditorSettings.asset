@@ -26,11 +26,17 @@ MonoBehaviour:
       type: {class: DefinesSettings, ns: UGF.Defines.Editor, asm: UGF.Defines.Editor}
       data:
         m_includeInBuild: 0
-        m_defines: []
+        m_defines:
+        - m_enabled: 1
+          m_value: TEST2
+        - m_enabled: 0
+          m_value: 
+        - m_enabled: 0
+          m_value: 
     00000001:
       type: {class: DefinesSettings, ns: UGF.Defines.Editor, asm: UGF.Defines.Editor}
       data:
-        m_includeInBuild: 0
+        m_includeInBuild: 1
         m_defines:
         - m_enabled: 1
           m_value: TEST

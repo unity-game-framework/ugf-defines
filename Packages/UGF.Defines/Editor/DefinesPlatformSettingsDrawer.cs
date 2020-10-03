@@ -9,6 +9,11 @@ namespace UGF.Defines.Editor
 {
     public class DefinesPlatformSettingsDrawer : PlatformSettingsDrawer
     {
+        public event DefineGroupChangeHandler Applied;
+        public event DefineGroupChangeHandler Cleared;
+
+        public delegate void DefineGroupChangeHandler(string name, BuildTargetGroup buildTargetGroup, bool onlyEnabled);
+
         private Styles m_styles;
 
         private class Styles
@@ -208,6 +213,7 @@ namespace UGF.Defines.Editor
         {
             if (Enum.TryParse(name, out BuildTargetGroup group))
             {
+                Applied?.Invoke(name, group, onlyEnabled);
             }
         }
 
@@ -215,6 +221,7 @@ namespace UGF.Defines.Editor
         {
             if (Enum.TryParse(name, out BuildTargetGroup group))
             {
+                Cleared?.Invoke(name, group, onlyEnabled);
             }
         }
     }
