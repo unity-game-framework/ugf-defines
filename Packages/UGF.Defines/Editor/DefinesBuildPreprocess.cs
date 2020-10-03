@@ -12,11 +12,8 @@ namespace UGF.Defines.Editor
         {
             BuildTargetGroup group = report.summary.platformGroup;
 
-            if (DefinesEditorSettings.TryGetSettings(group, out DefinesSettings settings) && settings.IncludeInBuild)
-            {
-                DefinesEditorSettings.ApplyAll(group, settings, true);
-                AssetDatabase.SaveAssets();
-            }
+            DefinesBuildEditorUtility.ApplyAll(group, DefinesEditorSettings.Settings, true);
+            AssetDatabase.SaveAssets();
         }
     }
 }

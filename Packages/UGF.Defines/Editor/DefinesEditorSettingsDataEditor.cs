@@ -35,13 +35,13 @@ namespace UGF.Defines.Editor
 
         private void OnApplied(string groupName, BuildTargetGroup buildTargetGroup, bool onlyEnabled)
         {
-            DefinesEditorSettings.ApplyAll(buildTargetGroup, onlyEnabled);
+            DefinesBuildEditorUtility.ApplyAll(buildTargetGroup, DefinesEditorSettings.Settings, true);
             AssetDatabase.SaveAssets();
         }
 
         private void OnCleared(string groupName, BuildTargetGroup buildTargetGroup, bool onlyEnabled)
         {
-            DefinesEditorSettings.ClearAll(buildTargetGroup, onlyEnabled);
+            DefinesBuildEditorUtility.ClearAll(buildTargetGroup, DefinesEditorSettings.Settings);
             AssetDatabase.SaveAssets();
         }
     }
