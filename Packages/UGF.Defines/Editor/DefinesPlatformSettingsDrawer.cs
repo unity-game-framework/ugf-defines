@@ -18,7 +18,7 @@ namespace UGF.Defines.Editor
 
         private class Styles
         {
-            public GUIContent IncludeInBuild { get; } = new GUIContent("Include In Build", "Determines whether to include specified enabled defines in player build.");
+            public GUIContent IncludeInBuild { get; } = new GUIContent("Include In Build", "Determines whether to include enabled defines in player build.");
             public GUIContent Count { get; } = new GUIContent("Count");
             public GUIContent ApplyContent { get; } = new GUIContent("Apply", "Apply specified defines to Project Settings compile symbols.");
             public GUIContent ClearContent { get; } = new GUIContent("Clear", "Clear Project Settings compile symbols from all specified defines.");
