@@ -118,7 +118,6 @@ namespace UGF.Defines.Editor
             SerializedProperty propertySettings = OnGetSettings(propertyGroups, name);
             SerializedProperty propertyDefines = propertySettings.FindPropertyRelative("m_defines");
             SerializedProperty propertyElement = propertyDefines.GetArrayElementAtIndex(index);
-            SerializedProperty propertyValue = propertyElement.FindPropertyRelative("m_value");
 
             float line = EditorGUIUtility.singleLineHeight;
             float space = EditorGUIUtility.standardVerticalSpacing;
@@ -126,21 +125,9 @@ namespace UGF.Defines.Editor
             var propertyPosition = new Rect(position.x, position.y, position.width - line - space, position.height);
             var flagPosition = new Rect(propertyPosition.xMax + space, position.y, line, position.height);
 
-            GUIContent flagContent = m_styles.FlagOffContent;
-
-            if (!string.IsNullOrEmpty(propertyValue.stringValue) && Enum.TryParse(name, out BuildTargetGroup value))
-            {
-                bool hasDefine = DefinesEditorUtility.HasDefine(propertyValue.stringValue, value);
-
-                if (hasDefine)
-                {
-                    flagContent = m_styles.FlagOnContent;
-                }
-            }
-
             EnabledPropertyGUIUtility.EnabledProperty(propertyPosition, GUIContent.none, propertyElement);
 
-            GUI.Label(flagPosition, flagContent, m_styles.FlagStyle);
+            DrawDefineFlag(flagPosition, propertyGroups, index);
         }
 
         protected virtual void OnDrawControls(Rect position, SerializedProperty propertyGroups, string name)
@@ -255,6 +242,29 @@ namespace UGF.Defines.Editor
             {
                 Cleared?.Invoke(name, group, onlyEnabled);
             }
+        }
+
+        protected virtual void DrawDefineFlag(Rect position, SerializedProperty propertyGroups, int index)
+        {
+            string name = GetSelectedGroupName();
+            SerializedProperty propertySettings = OnGetSettings(propertyGroups, name);
+            SerializedProperty propertyDefines = propertySettings.FindPropertyRelative("m_defines");
+            SerializedProperty propertyElement = propertyDefines.GetArrayElementAtIndex(index);
+            SerializedProperty propertyValue = propertyElement.FindPropertyRelative("m_value");
+
+            GUIContent flagContent = m_styles.FlagOffContent;
+
+            if (!string.IsNullOrEmpty(propertyValue.stringValue) && Enum.TryParse(name, out BuildTargetGroup value))
+            {
+                bool hasDefine = DefinesEditorUtility.HasDefine(propertyValue.stringValue, value);
+
+                if (hasDefine)
+                {
+                    flagContent = m_styles.FlagOnContent;
+                }
+            }
+
+            GUI.Label(position, flagContent, m_styles.FlagStyle);
         }
     }
 }
