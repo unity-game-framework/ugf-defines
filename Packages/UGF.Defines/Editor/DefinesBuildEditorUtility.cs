@@ -43,5 +43,29 @@ namespace UGF.Defines.Editor
                 }
             }
         }
+
+        public static void SaveScriptingDefineSymbolsForGroup(BuildTargetGroup buildTargetGroup)
+        {
+            string key = $"{typeof(DefinesBuildEditorUtility).FullName}.{buildTargetGroup}";
+            string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
+
+            EditorPrefs.SetString(key, defines);
+        }
+
+        public static bool TryLoadScriptingDefineSymbolsForGroup(BuildTargetGroup buildTargetGroup)
+        {
+            string key = $"{typeof(DefinesBuildEditorUtility).FullName}.{buildTargetGroup}";
+
+            if (EditorPrefs.HasKey(key))
+            {
+                string defines = EditorPrefs.GetString(key);
+
+                PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup, defines);
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

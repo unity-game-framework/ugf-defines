@@ -12,9 +12,8 @@ namespace UGF.Defines.Editor
         {
             BuildTargetGroup group = report.summary.platformGroup;
 
-            if (DefinesEditorSettings.RestoreDefinesAfterBuild)
+            if (DefinesEditorSettings.RestoreDefinesAfterBuild && DefinesBuildEditorUtility.TryLoadScriptingDefineSymbolsForGroup(group))
             {
-                DefinesBuildEditorUtility.LoadPreviouslySavedDefines(group);
                 AssetDatabase.SaveAssets();
             }
         }
