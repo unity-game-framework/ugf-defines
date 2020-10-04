@@ -6,7 +6,7 @@ namespace UGF.Defines.Editor
 {
     internal class DefinesBuildPostprocess : IPostprocessBuildWithReport
     {
-        public int callbackOrder { get; } = int.MaxValue;
+        public int callbackOrder { get; } = 1000000;
 
         public void OnPostprocessBuild(BuildReport report)
         {
