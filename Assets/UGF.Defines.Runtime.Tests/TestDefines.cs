@@ -10,7 +10,7 @@ namespace UGF.Defines.Runtime.Tests
 #if TEST1
             Assert.Pass();
 #else
-            Assert.Fail();
+            Assert.Fail("'TEST1' has no defined.");
 #endif
         }
 
@@ -20,7 +20,7 @@ namespace UGF.Defines.Runtime.Tests
 #if TEST2
             Assert.Pass();
 #else
-            Assert.Fail();
+            Assert.Fail("'TEST2' has no defined.");
 #endif
         }
     }
