@@ -8,31 +8,26 @@ namespace UGF.Defines.Editor
     {
         public static bool RestoreDefinesAfterBuild
         {
-            get { return m_settings.Data.RestoreDefinesAfterBuild; }
+            get { return Settings.Data.RestoreDefinesAfterBuild; }
             set
             {
-                m_settings.Data.RestoreDefinesAfterBuild = value;
-                m_settings.SaveSettings();
+                Settings.Data.RestoreDefinesAfterBuild = value;
+                Settings.SaveSettings();
             }
         }
 
-        public static PlatformSettings<DefinesSettings> Settings { get { return m_settings.Data.Settings; } }
+        public static PlatformSettings<DefinesSettings> PlatformSettings { get { return Settings.Data.Settings; } }
 
-        private static readonly CustomSettingsEditorPackage<DefinesEditorSettingsData> m_settings = new CustomSettingsEditorPackage<DefinesEditorSettingsData>
+        public static CustomSettingsEditorPackage<DefinesEditorSettingsData> Settings { get; } = new CustomSettingsEditorPackage<DefinesEditorSettingsData>
         (
             "UGF.Defines",
             "DefinesEditorSettings"
         );
 
-        public static void Save()
-        {
-            m_settings.SaveSettings();
-        }
-
         [SettingsProvider]
         private static SettingsProvider GetProvider()
         {
-            return new CustomSettingsProvider<DefinesEditorSettingsData>("Project/UGF/Defines", m_settings, SettingsScope.Project);
+            return new CustomSettingsProvider<DefinesEditorSettingsData>("Project/UGF/Defines", Settings, SettingsScope.Project);
         }
     }
 }

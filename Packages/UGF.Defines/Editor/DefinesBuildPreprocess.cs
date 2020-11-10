@@ -18,7 +18,7 @@ namespace UGF.Defines.Editor
                 DefinesBuildEditorUtility.SaveScriptingDefineSymbolsForGroup(group);
             }
 
-            if (DefinesEditorSettings.Settings.TryGetSettings(group, out DefinesSettings settings) && settings.IncludeInBuild)
+            if (DefinesEditorSettings.PlatformSettings.TryGetSettings(group, out DefinesSettings settings) && settings.IncludeInBuild)
             {
                 DefinesBuildEditorUtility.ApplyDefinesAll(group, settings);
             }
