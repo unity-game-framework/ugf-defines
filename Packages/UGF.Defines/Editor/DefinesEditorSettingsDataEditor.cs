@@ -44,7 +44,7 @@ namespace UGF.Defines.Editor
 
         private void OnApplied(string groupName, BuildTargetGroup buildTargetGroup)
         {
-            if (DefinesEditorSettings.Settings.TryGetSettings(buildTargetGroup, out DefinesSettings settings))
+            if (DefinesEditorSettings.PlatformSettings.TryGetSettings(buildTargetGroup, out DefinesSettings settings))
             {
                 DefinesBuildEditorUtility.ApplyDefinesAll(buildTargetGroup, settings);
                 AssetDatabase.SaveAssets();
@@ -53,7 +53,7 @@ namespace UGF.Defines.Editor
 
         private void OnCleared(string groupName, BuildTargetGroup buildTargetGroup)
         {
-            if (DefinesEditorSettings.Settings.TryGetSettings(buildTargetGroup, out DefinesSettings settings))
+            if (DefinesEditorSettings.PlatformSettings.TryGetSettings(buildTargetGroup, out DefinesSettings settings))
             {
                 DefinesBuildEditorUtility.ClearDefinesAll(buildTargetGroup, settings);
                 AssetDatabase.SaveAssets();

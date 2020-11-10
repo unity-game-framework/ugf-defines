@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UGF.Defines.Editor
 {
-    internal class DefinesEditorSettingsData : CustomSettingsData
+    public class DefinesEditorSettingsData : CustomSettingsData
     {
         [SerializeField] private bool m_restoreDefinesAfterBuild = true;
         [SerializeField] private PlatformSettings<DefinesSettings> m_settings = new PlatformSettings<DefinesSettings>();
