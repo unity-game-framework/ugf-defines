@@ -58,6 +58,8 @@ namespace UGF.Defines.Editor
 
         public bool TryGetIndex(string name, out int index)
         {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
+
             for (int i = 0; i < m_defines.Count; i++)
             {
                 EnabledProperty<string> define = m_defines[i];

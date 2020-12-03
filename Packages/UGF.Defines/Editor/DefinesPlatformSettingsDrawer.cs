@@ -53,7 +53,7 @@ namespace UGF.Defines.Editor
 
         protected override void OnDrawGUI(Rect position, SerializedProperty propertyGroups)
         {
-            if (m_styles == null) m_styles = new Styles();
+            m_styles ??= new Styles();
 
             base.OnDrawGUI(position, propertyGroups);
         }
@@ -147,7 +147,6 @@ namespace UGF.Defines.Editor
 
             var applyPosition = new Rect(position.xMax - width - line, position.y, width, line);
             var clearPosition = new Rect(applyPosition.x - width - space, position.y, width, line);
-            var clearAllPosition = new Rect(clearPosition.x - width - space - 10F, position.y, width + 10F, line);
 
             if (hasAny)
             {

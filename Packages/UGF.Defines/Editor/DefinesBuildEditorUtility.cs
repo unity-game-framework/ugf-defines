@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace UGF.Defines.Editor
 {
-    public static partial class DefinesBuildEditorUtility
+    public static class DefinesBuildEditorUtility
     {
         public static void ApplyDefinesAll(BuildTargetGroup buildTargetGroup, DefinesSettings settings)
         {
