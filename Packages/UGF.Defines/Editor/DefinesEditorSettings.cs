@@ -8,15 +8,15 @@ namespace UGF.Defines.Editor
     {
         public static bool RestoreDefinesAfterBuild
         {
-            get { return Settings.Data.RestoreDefinesAfterBuild; }
+            get { return Settings.GetData().RestoreDefinesAfterBuild; }
             set
             {
-                Settings.Data.RestoreDefinesAfterBuild = value;
+                Settings.GetData().RestoreDefinesAfterBuild = value;
                 Settings.SaveSettings();
             }
         }
 
-        public static PlatformSettings<DefinesSettings> PlatformSettings { get { return Settings.Data.Settings; } }
+        public static PlatformSettings<DefinesSettings> PlatformSettings { get { return Settings.GetData().Settings; } }
 
         public static CustomSettingsEditorPackage<DefinesEditorSettingsData> Settings { get; } = new CustomSettingsEditorPackage<DefinesEditorSettingsData>
         (
