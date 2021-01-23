@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1](https://github.com/unity-game-framework/ugf-defines/releases/tag/2.1.1) - 2021-01-23  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-defines/milestone/5?closed=1)  
+    
+
+### Fixed
+
+- Change build processors order value when Unity fix become available ([#16](https://github.com/unity-game-framework/ugf-defines/pull/16))  
+    - Update `DefinesBuildPostprocess` and `DefinesBuildPreprocess` order values.
+    - Change required _Unity_ version to `2020.2.2f1`.
+
 ## [2.1.0](https://github.com/unity-game-framework/ugf-defines/releases/tag/2.1.0) - 2020-12-03  
 
 ### Release Notes

@@ -1,7 +1,7 @@
 {
   "name": "com.ugf.defines",
   "displayName": "UGF.Defines",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "unity": "2020.2",
   "unityRelease": "2f1",
   "apiCompatibility": ".NET Standard 2.0",
