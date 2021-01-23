@@ -7,7 +7,7 @@ namespace UGF.Defines.Editor
 {
     internal class DefinesBuildPreprocess : IPreprocessBuildWithReport
     {
-        public int callbackOrder { get; } = -1000000;
+        public int callbackOrder { get; } = int.MinValue;
 
         public void OnPreprocessBuild(BuildReport report)
         {
