@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.2](https://github.com/unity-game-framework/ugf-defines/releases/tag/2.1.2) - 2021-01-24  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-defines/milestone/6?closed=1)  
+    
+
+### Fixed
+
+- Fix defines settings not display ([#21](https://github.com/unity-game-framework/ugf-defines/pull/21))  
+    - Update dependencies with required fix: `com.ugf.editortools` to `1.10.0` version.
+
 ## [2.1.1](https://github.com/unity-game-framework/ugf-defines/releases/tag/2.1.1) - 2021-01-23  
 
 ### Release Notes
