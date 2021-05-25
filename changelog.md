@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.3](https://github.com/unity-game-framework/ugf-defines/releases/tag/2.1.3) - 2021-05-25  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-defines/milestone/7?closed=1)  
+    
+
+### Changed
+
+- Change project settings root name ([#24](https://github.com/unity-game-framework/ugf-defines/pull/24))  
+    - Update project to Unity `2020.3`.
+    - Change project settings root name to `Unity Game Framework`.
+
 ## [2.1.2](https://github.com/unity-game-framework/ugf-defines/releases/tag/2.1.2) - 2021-01-24  
 
 ### Release Notes
