@@ -2,8 +2,7 @@
   "name": "com.ugf.defines",
   "displayName": "UGF.Defines",
   "version": "2.1.2",
-  "unity": "2020.2",
-  "unityRelease": "2f1",
+  "unity": "2020.3",
   "apiCompatibility": ".NET Standard 2.0",
   "description": "Utility to control custom compile defines in editor and during player build.",
   "author": {
@@ -17,10 +16,7 @@
   "changelogUrl": "https://github.com/unity-game-framework/ugf-defines/blob/master/changelog.md",
   "licensesUrl": "https://github.com/unity-game-framework/ugf-defines/blob/master/license",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@unity-game-framework"
-  },
-  "bintray": {
-    "registry": "https://api.bintray.com/content/unity-game-framework/public"
+    "registry": "https://unitygameframework.jfrog.io/artifactory/api/npm/default"
   },
   "dependencies": {
     "com.ugf.customsettings": "3.4.0",
