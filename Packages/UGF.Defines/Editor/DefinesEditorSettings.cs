@@ -27,7 +27,7 @@ namespace UGF.Defines.Editor
         [SettingsProvider]
         private static SettingsProvider GetProvider()
         {
-            return new CustomSettingsProvider<DefinesEditorSettingsData>("Project/UGF/Defines", Settings, SettingsScope.Project);
+            return new CustomSettingsProvider<DefinesEditorSettingsData>("Project/Unity Game Framework/Defines", Settings, SettingsScope.Project);
         }
     }
 }
