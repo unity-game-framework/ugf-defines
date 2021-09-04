@@ -1,6 +1,8 @@
 ﻿using UGF.EditorTools.Editor.IMGUI.PlatformSettings;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
+using UGF.EditorTools.Editor.Platforms;
 using UnityEditor;
+using UnityEngine;
 
 namespace UGF.Defines.Editor
 {
@@ -35,22 +37,47 @@ namespace UGF.Defines.Editor
 
                 m_drawer.DrawGUILayout(m_propertyGroups);
             }
+
+            EditorGUILayout.Space();
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.FlexibleSpace();
+
+                if (GUILayout.Button("Clear"))
+                {
+                    OnClear();
+                }
+
+                if (GUILayout.Button("Apply"))
+                {
+                    OnApply();
+                }
+
+                EditorGUILayout.Space();
+            }
         }
 
-        private void OnApplied(string groupName, BuildTargetGroup buildTargetGroup)
+        private void OnApply()
         {
-            if (DefinesEditorSettings.PlatformSettings.TryGetSettings(buildTargetGroup, out DefinesSettings settings))
+            string platformName = m_drawer.GetSelectedPlatformName();
+            PlatformInfo platform = PlatformEditorUtility.GetPlatform(platformName);
+
+            if (DefinesEditorSettings.PlatformSettings.TryGetSettings(platform.BuildTargetGroup, out DefinesSettings settings))
             {
-                DefinesBuildEditorUtility.ApplyDefinesAll(buildTargetGroup, settings);
+                DefinesBuildEditorUtility.ApplyDefinesAll(platform.BuildTargetGroup, settings);
                 AssetDatabase.SaveAssets();
             }
         }
 
-        private void OnCleared(string groupName, BuildTargetGroup buildTargetGroup)
+        private void OnClear()
         {
-            if (DefinesEditorSettings.PlatformSettings.TryGetSettings(buildTargetGroup, out DefinesSettings settings))
+            string platformName = m_drawer.GetSelectedPlatformName();
+            PlatformInfo platform = PlatformEditorUtility.GetPlatform(platformName);
+
+            if (DefinesEditorSettings.PlatformSettings.TryGetSettings(platform.BuildTargetGroup, out DefinesSettings settings))
             {
-                DefinesBuildEditorUtility.ClearDefinesAll(buildTargetGroup, settings);
+                DefinesBuildEditorUtility.ClearDefinesAll(platform.BuildTargetGroup, settings);
                 AssetDatabase.SaveAssets();
             }
         }
