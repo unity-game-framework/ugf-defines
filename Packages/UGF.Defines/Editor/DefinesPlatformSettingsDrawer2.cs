@@ -19,17 +19,13 @@ namespace UGF.Defines.Editor
 
         private class Styles
         {
-            public GUIContent IncludeInBuild { get; } = new GUIContent("Include In Build", "Determines whether to include enabled defines in player build.");
             public GUIContent FlagOnContent { get; } = new GUIContent(EditorGUIUtility.FindTexture("Valid"), "Define currently included in compile symbols.");
             public GUIContent FlagOffContent { get; } = new GUIContent("X", "Define currently NOT included in compile symbols.");
 
             public GUIStyle FlagStyle { get; } = new GUIStyle("MiniLabel")
             {
                 alignment = TextAnchor.MiddleCenter,
-                normal =
-                {
-                    textColor = Color.grey
-                }
+                normal = { textColor = Color.grey }
             };
         }
 
@@ -37,6 +33,11 @@ namespace UGF.Defines.Editor
         {
             AllowEmptySettings = false;
             AutoSettingsInstanceCreation = true;
+        }
+
+        public string GetSelectedPlatformName()
+        {
+            return GetSelectedGroupName();
         }
 
         protected override void OnEnable()
