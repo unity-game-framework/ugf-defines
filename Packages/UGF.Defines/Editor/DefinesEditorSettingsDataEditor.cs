@@ -9,7 +9,7 @@ namespace UGF.Defines.Editor
     [CustomEditor(typeof(DefinesEditorSettingsData), true)]
     internal class DefinesEditorSettingsDataEditor : UnityEditor.Editor
     {
-        private readonly DefinesPlatformSettingsDrawer2 m_drawer = new DefinesPlatformSettingsDrawer2();
+        private readonly DefinesPlatformSettingsDrawer m_drawer = new DefinesPlatformSettingsDrawer();
         private SerializedProperty m_propertyRestoreDefinesAfterBuild;
         private SerializedProperty m_propertyGroups;
 
