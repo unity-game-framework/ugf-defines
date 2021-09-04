@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace UGF.Defines.Editor
 {
-    public class DefinesPlatformSettingsDrawer : PlatformSettingsDrawer
+    internal class DefinesPlatformSettingsDrawer : PlatformSettingsDrawer
     {
         public event DefineGroupChangeHandler Applied;
         public event DefineGroupChangeHandler Cleared;
